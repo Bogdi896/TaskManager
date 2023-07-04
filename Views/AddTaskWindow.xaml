@@ -1,0 +1,67 @@
+﻿<Window x:Class="TaskOrganiser.Views.AddTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskOrganiser.Views"
+        mc:Ignorable="d"
+        Title="AddTaskWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Name: " VerticalAlignment="Center"/>
+        <TextBox Name="NameTextBox" Grid.Row="0" Grid.Column="1"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Text="Description: "/>
+        <TextBox Name="DescriptionTextBox" Grid.Row="0" Grid.Column="3"/>
+
+      
+
+        <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Text="Priority: "/>
+        <ComboBox Name="PriorityComboBox" Grid.Row="1" Grid.Column="3">
+            <ComboBoxItem Content="Low"></ComboBoxItem>
+            <ComboBoxItem Content="Medium"></ComboBoxItem>
+            <ComboBoxItem Content="High"></ComboBoxItem>
+        </ComboBox>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Type: "/>
+        <ComboBox Name="TypeComboBox" Grid.Row="2" Grid.Column="1">
+            <ComboBoxItem Content="Minor"></ComboBoxItem>
+            <ComboBoxItem Content="Major"></ComboBoxItem>
+        </ComboBox>
+
+        <TextBlock Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Text="Deadline: "/>
+        <DatePicker Name="DeadlineDatePicker" Grid.Row="2" Grid.Column="3"></DatePicker>
+
+
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Category: "/>
+        <ComboBox Name="CategoryComboBox" Grid.Row="1" Grid.Column="1">
+            <ComboBoxItem Content="Home"></ComboBoxItem>
+            <ComboBoxItem Content="Work"></ComboBoxItem>
+            <ComboBoxItem Content="Music Production"></ComboBoxItem>
+            <ComboBoxItem Content="Shopping"></ComboBoxItem>
+        </ComboBox>
+
+        <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Press the button to submit your task: "></TextBlock>
+            <Button Name="SubmitButton" Grid.Row="0" Grid.Column="1" Content="SUBMIT" Click="SubmitButtonClicked" Margin="0,10,0,10"></Button>
+        </Grid>
+    </Grid>
+</Window>

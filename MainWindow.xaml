@@ -1,0 +1,120 @@
+﻿<Window x:Class="TaskOrganiser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskOrganiser" xmlns:ViewModel="clr-namespace:TaskOrganiser.ViewModel"
+        mc:Ignorable="d"
+        Title="TDL App" Height="500" Width="800">
+    <Window.DataContext>
+        <ViewModel:TreeViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="{x:Type Control}">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+    <Grid Name="TasksGrid" Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" Background="AliceBlue">
+            <MenuItem Header="Task">
+                <MenuItem Header="Add" Click="AddButtonClicked"/>
+                <MenuItem Header="Edit" Click="EditButtonClicked"/>
+                <MenuItem Header="Delete" Command="{Binding DeleteTaskCommand}"/>
+                <MenuItem Header="Set done" Click="SetDoneButtonClicked"/>
+                <MenuItem Header="Move up" Click="MoveUpButtonClicked"/>
+                <MenuItem Header="Move down" Click="MoveDownButtonClicked"/>
+                <MenuItem Header="Find task" Click="FindTaskButtonClicked"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Sort">
+                    <MenuItem Header="Deadline" Click="SortByDeadline"></MenuItem>
+                    <MenuItem Header="Priority" Click="SortByPriority"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Filter">
+                    <MenuItem Header="Done tasks" Click="DisplayFinishedTasks"/>
+                    <MenuItem Header="Unfinished tasks" Click="DisplayUnfinishedTasks"/>
+                    <MenuItem Header="All tasks" Click="DisplayAllTasks"/>
+                </MenuItem>
+                <MenuItem Header="Statistics" Click="StatisticsButtonClicked"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Click="AboutButtonClicked"/>
+            </MenuItem>
+        </Menu>
+        <TreeView Name="TDLTreeView" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding TDLs}" SelectedItemChanged="TreeView_SelectedItemChanged" Background="AliceBlue" Margin="0,0,127,166" Grid.RowSpan="2">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding ToDoLists}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <ListView Name="TaskListView" Background="AliceBlue" Grid.Row="1" ItemsSource="{Binding SelectedItem.Tasks, ElementName=TDLTreeView}"
+                  SelectionChanged="TaskListViewSelectionChanged" Grid.ColumnSpan="2" Margin="173,0,0,166" Grid.RowSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn Header="Task Name" Width="250">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Grid.Column="0" Name="IsDoneCheckBox" IsChecked="{Binding Status}"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding Priority}"/>
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}"/>
+                    <GridViewColumn Header="Deadline" DisplayMemberBinding="{Binding Deadline}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Content="Tasks due today: "/>
+            <TextBlock Name="TasksDueTodayBlock" Grid.Column="1" Grid.Row="0"/>
+            <Label Grid.Column="0" Grid.Row="1" Content="Tasks due tomorrow: "/>
+            <TextBlock Name="TasksDueTomorrowBlock" Grid.Column="1" Grid.Row="1"/>
+            <Label Grid.Column="0" Grid.Row="2" Content="Tasks overdue: "/>
+            <TextBlock Name="TasksOverdueBlock" Grid.Column="1" Grid.Row="2"/>
+            <Label Grid.Column="0" Grid.Row="3" Content="Tasks done: "/>
+            <TextBlock Name="TasksDoneBlock" Grid.Column="1" Grid.Row="3"/>
+            <Label Grid.Column="0" Grid.Row="4" Content="Tasks to be done: "/>
+            <TextBlock Name="TasksToBeDoneBlock" Grid.Column="1" Grid.Row="4"/>
+        </Grid>
+        <TextBlock Name="DescriptionTask" Grid.Row="2" Text="{Binding SelectedItem.Description, ElementName=TaskListView, FallbackValue='No task selected'}" Margin="200,26,100,-28" Grid.ColumnSpan="2"/>
+        <Label Name="Description" Grid.Row="2" Content="Selected task's notes and attachments" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,44 @@
+﻿<Window x:Class="TaskOrganiser.Views.FindTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskOrganiser.Views" xmlns:ViewModel="clr-namespace:TaskOrganiser.ViewModel"
+        mc:Ignorable="d"
+        Title="FindTaskWindow" Height="471" Width="728">
+    <Window.DataContext>
+        <ViewModel:TreeViewModel>
+
+        </ViewModel:TreeViewModel>
+    </Window.DataContext>
+    <Grid Background="AliceBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="659*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="49*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Find tasks" HorizontalAlignment="Left" FontWeight="Bold" FontSize="24" Margin="327,21,0,321" Width="112"/>
+        <TextBlock Text="Search by name: " Margin="125,109,441,283"/>
+        <TextBox Name="SearchByNameTextBox" Margin="266,90,203,302"/>
+        <Button Name="FindButton" Content="Find" Margin="266,196,309,213" Click="FindButtonClicked"/>
+        <Button Name="CloseButton" Content="Close" Margin="400,196,174,213" Click="CloseButtonClicked"/>
+        <ListView Name="FoundTasksListView" Margin="250,289,162,44" ItemsSource="{Binding tuples}">
+            <ListView.View>
+                <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn Header="Task Name" DisplayMemberBinding="{Binding Item1}"/>
+                    <GridViewColumn Header="TDL Name" DisplayMemberBinding="{Binding Item2.Name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <CheckBox Name="viewCheckBox" Margin="179,236,421,165"/>
+        <TextBlock Text="Search only in current TDL" Margin="12,236,490,165"/>
+        <TextBlock Name="FoundItemsTextBlock" Margin="474,90,23,302"/>
+    </Grid>
+</Window>
